@@ -1,28 +1,34 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 interface PlayerProps {
-  name: string;
+  initialName: string;
   symbol: string;
 }
 
-export default function Player({ name, symbol }: PlayerProps) {
+export default function Player({ initialName, symbol }: PlayerProps) {
   const [isEditing, setIsEditing] = useState(false);
-  // const [changeInput, setChangeInput] = useState(name);
+  const [playerName, setPlayerName] = useState(initialName);
 
   function handleEditClick() {
     setIsEditing((editing) => !editing); // 편집된 상태에서 최신상태를 얻는다. (모범사례)
   }
 
-  let playerName = <span className="player-name">{name}</span>;
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    setPlayerName(event.target.value);
+  }
+
+  let editablePlayerName = <span className="player-name">{playerName}</span>;
 
   if (isEditing) {
-    playerName = <input type="text" required value={name} />;
+    editablePlayerName = (
+      <input type="text" required value={playerName} onChange={handleChange} />
+    );
   }
 
   return (
     <li>
       <span className="player">
-        {playerName}
+        {editablePlayerName}
         <span className="player-symbol">{symbol}</span>
       </span>
       <button onClick={handleEditClick}>{isEditing ? "Save" : "Edit"}</button>
