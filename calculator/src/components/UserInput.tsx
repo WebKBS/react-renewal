@@ -1,22 +1,9 @@
-import { useState } from "react";
+import { InputChangeHandler, InvestmentData } from "../types/type";
 
-export default function UserInput() {
-  const [userInput, setUserInput] = useState({
-    initialInvestment: 10000,
-    annualInvestment: 1200,
-    expectedReturn: 6,
-    duration: 10,
-  });
-
-  function handleChange(inputIdentifier: string, newValue: number) {
-    setUserInput((prevUserInput) => {
-      return {
-        ...prevUserInput,
-        [inputIdentifier]: newValue,
-      };
-    });
-  }
-
+export default function UserInput({
+  onChange,
+  userInput,
+}: InputChangeHandler & { userInput: InvestmentData }) {
   return (
     <section id="user-input">
       <div className="input-group">
@@ -27,7 +14,7 @@ export default function UserInput() {
             required
             value={userInput.initialInvestment}
             onChange={(event) =>
-              handleChange("initialInvestment", Number(event.target.value))
+              onChange("initialInvestment", Number(event.target.value))
             }
           />
         </p>
@@ -38,7 +25,7 @@ export default function UserInput() {
             required
             value={userInput.annualInvestment}
             onChange={(event) =>
-              handleChange("annualInvestment", Number(event.target.value))
+              onChange("annualInvestment", Number(event.target.value))
             }
           />
         </p>
@@ -51,7 +38,7 @@ export default function UserInput() {
             required
             value={userInput.expectedReturn}
             onChange={(event) =>
-              handleChange("expectedReturn", Number(event.target.value))
+              onChange("expectedReturn", Number(event.target.value))
             }
           />
         </p>
@@ -62,7 +49,7 @@ export default function UserInput() {
             required
             value={userInput.duration}
             onChange={(event) =>
-              handleChange("duration", Number(event.target.value))
+              onChange("duration", Number(event.target.value))
             }
           />
         </p>
