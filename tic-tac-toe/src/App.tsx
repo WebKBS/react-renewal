@@ -4,18 +4,28 @@ import Player from "./components/Player";
 import Log from "./components/Log";
 import { Turn } from "./Types/propsType";
 
+function deriveActivePlayer(gameTruns: Turn[]) {
+  let currentPlayer = "X";
+
+  if (gameTruns.length > 0 && gameTruns[0].player === "X") {
+    currentPlayer = "O";
+  }
+
+  return currentPlayer;
+}
+
 function App() {
-  const [activePlayer, setActivePlayer] = useState("X");
+  // const [activePlayer, setActivePlayer] = useState("X");
   const [gameTurns, setGameTurns] = useState<Turn[]>([]);
 
-  function hanldeSelectSquare(rowIndex: number, colIndex: number) {
-    setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
-    setGameTurns((prevTurns) => {
-      let currentPlayer = "X";
+  const activePlayer = deriveActivePlayer(gameTurns);
 
-      if (prevTurns.length > 0 && prevTurns[0].player === "X") {
-        currentPlayer = "O";
-      }
+  function hanldeSelectSquare(rowIndex: number, colIndex: number) {
+    // setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
+
+    setGameTurns((prevTurns) => {
+      const currentPlayer = deriveActivePlayer(prevTurns);
+
       const updatedTurns = [
         { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
         ...prevTurns,
