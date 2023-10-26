@@ -18,3 +18,5 @@ export interface PlayerProps {
 export interface Players {
   [key: string]: string;
 }
+
+export type GameBoardType = (string | null)[][];
