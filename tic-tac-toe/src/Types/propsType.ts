@@ -5,3 +5,5 @@ export interface Turn {
   };
   player: string;
 }
+
+export type PlayerSymbol = string | null;
