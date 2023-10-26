@@ -1,17 +1,21 @@
 import { ChangeEvent, useState } from "react";
+import { PlayerProps } from "../Types/propsType";
 
-interface PlayerProps {
-  initialName: string;
-  symbol: string;
-  isActive: boolean;
-}
-
-export default function Player({ initialName, symbol, isActive }: PlayerProps) {
+export default function Player({
+  initialName,
+  symbol,
+  isActive,
+  onChangeName,
+}: PlayerProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(initialName);
 
   function handleEditClick() {
     setIsEditing((editing) => !editing); // 편집된 상태에서 최신상태를 얻는다. (모범사례)
+
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    }
   }
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {

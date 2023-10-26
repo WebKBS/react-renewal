@@ -1,4 +1,9 @@
-export default function GameOver({ winner }: { winner: string | undefined }) {
+interface GameOverType {
+  winner: string | undefined;
+  onRestart: () => void;
+}
+
+export default function GameOver({ winner, onRestart }: GameOverType) {
   console.log(winner);
   return (
     <div id="game-over">
@@ -7,7 +12,7 @@ export default function GameOver({ winner }: { winner: string | undefined }) {
       {/* {winner && <p>{winner} won!</p>}
       {!winner && <p>Its Draw!</p>} */}
       <p>
-        <button>Rematch!</button>
+        <button onClick={onRestart}>Rematch!</button>
       </p>
     </div>
   );
