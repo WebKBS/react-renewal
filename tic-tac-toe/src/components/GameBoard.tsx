@@ -45,7 +45,10 @@ export default function GameBoard({ onSelectSquare, turns }: GameBoardProps) {
           <ol>
             {row.map((playerSymbol, colIdx) => (
               <li key={colIdx}>
-                <button onClick={() => onSelectSquare(rowIdx, colIdx)}>
+                <button
+                  onClick={() => onSelectSquare(rowIdx, colIdx)}
+                  disabled={playerSymbol !== null} // playerSymbol이 null이 아니라면 버튼 클릭을 제어한다.
+                >
                   {playerSymbol}
                 </button>
               </li>
