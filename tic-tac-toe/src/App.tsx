@@ -4,6 +4,7 @@ import Player from "./components/Player";
 import Log from "./components/Log";
 import { Turn } from "./Types/propsType";
 import { WINNING_COMBINATIONS } from "./winning-combinations";
+import GameOver from "./components/GameOver";
 
 const initialGameBoard: (string | null)[][] = [
   [null, null, null],
@@ -56,6 +57,8 @@ function App() {
     }
   }
 
+  const hasDraw = gameTurns.length === 9 && !winner;
+
   function hanldeSelectSquare(rowIndex: number, colIndex: number) {
     // setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
 
@@ -86,7 +89,7 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        {winner && <p>You Won, {winner}!</p>}
+        {(winner || hasDraw) && <GameOver winner={winner} />}
         <GameBoard onSelectSquare={hanldeSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
