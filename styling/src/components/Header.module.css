@@ -31,7 +31,7 @@ header p {
   margin: 0;
 }
 
-p {
+.paragraph {
   text-align: center;
   color: red;
   margin: 0;
