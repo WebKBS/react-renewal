@@ -47,7 +47,7 @@ export default function AuthInputs() {
           <Input
             type="password"
             label="Password"
-            invalid={emailNotValid}
+            invalid={passwordNotValid}
             // className={passwordNotValid ? "invalid" : undefined}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleInputChange("password", event.target.value)
