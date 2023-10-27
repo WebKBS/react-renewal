@@ -42,6 +42,7 @@ export default function AuthInputs() {
           />
         </p>
       </div>
+      <p>Some text</p>
       <div className="actions">
         <button type="button" className="text-button">
           Create a new account
