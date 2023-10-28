@@ -22,7 +22,10 @@ export default function TimerChallenge({
   function handleStart() {
     timer.current = setTimeout(() => {
       setTimerExpired(true);
-      dialog.current?.showModal();
+
+      if (dialog.current) {
+        dialog.current.showModal();
+      }
     }, targetTime * 1000);
     setTimearStarted(true);
   }
