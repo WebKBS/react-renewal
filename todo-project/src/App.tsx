@@ -4,8 +4,8 @@ import ProjectsSidebar from "./components/ProjectsSidebar";
 import NewProject from "./components/NewProject";
 
 interface ProjectData {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
 }
 
 function App() {
@@ -26,10 +26,25 @@ function App() {
     });
   }
 
+  function handleAddProject(projectData: ProjectData) {
+    setProjectsState((prevState) => {
+      const newProject = {
+        ...projectData,
+        id: Math.random(),
+      };
+      return {
+        ...prevState,
+        project: [...prevState.project, newProject],
+      };
+    });
+  }
+
+  console.log(projectsState);
+
   let content;
 
   if (projectsState.selectedProjectId === null) {
-    content = <NewProject />;
+    content = <NewProject onAdd={handleAddProject} />;
   } else if (projectsState.selectedProjectId === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
   }

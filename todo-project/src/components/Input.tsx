@@ -1,9 +1,15 @@
+import { forwardRef, ForwardedRef } from "react";
+
 interface InputType {
   label: string;
   textarea?: boolean;
+  type?: string;
 }
 
-export default function Input({ label, textarea, ...props }: InputType) {
+const Input = forwardRef(function Input(
+  { label, textarea, ...props }: InputType,
+  ref: ForwardedRef<HTMLInputElement | HTMLTextAreaElement>
+) {
   const classes =
     "w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600";
 
@@ -13,10 +19,20 @@ export default function Input({ label, textarea, ...props }: InputType) {
         {label}
       </label>
       {textarea ? (
-        <textarea className={classes} {...props} />
+        <textarea
+          ref={ref as React.RefObject<HTMLTextAreaElement>}
+          className={classes}
+          {...props}
+        />
       ) : (
-        <input className={classes} {...props} />
+        <input
+          ref={ref as React.RefObject<HTMLInputElement>}
+          className={classes}
+          {...props}
+        />
       )}
     </p>
   );
-}
+});
+
+export default Input;
