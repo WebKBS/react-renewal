@@ -12,9 +12,10 @@ interface ProjectData {
 
 interface ProjectType {
   onAdd: (projectData: ProjectData) => void;
+  onCancel: () => void;
 }
 
-export default function NewProject({ onAdd }: ProjectType) {
+export default function NewProject({ onAdd, onCancel }: ProjectType) {
   const modal = useRef<ModalRef | null>(null);
 
   const title = useRef<HTMLInputElement>(null);
@@ -47,15 +48,22 @@ export default function NewProject({ onAdd }: ProjectType) {
   return (
     <>
       <Modal ref={modal} buttonCaption="Okay">
-        <h2>Invalid Input</h2>
-        <p>Oops ... looks like you forgot to enter a value</p>
-        <p>Please make sure you provide a valid value for every input field.</p>
+        <h2 className="text-xl font-bold text-stone-500 my-4">Invalid Input</h2>
+        <p className="text-stone-400 mb-4">
+          Oops ... looks like you forgot to enter a value
+        </p>
+        <p className="text-stone-400 mb-4">
+          Please make sure you provide a valid value for every input field.
+        </p>
       </Modal>
       {/* [ ]를 붙이면 커스텀이 가능하다. */}
       <div className="w-[35rem] mt-16">
         <menu className="flex items-center justify-end gap-4 my-4">
           <li>
-            <button className="text-stone-800 hover:text-stone-950">
+            <button
+              className="text-stone-800 hover:text-stone-950"
+              onClick={onCancel}
+            >
               Cancel
             </button>
           </li>

@@ -1,6 +1,6 @@
 interface ButtonType {
   children: React.ReactNode;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({ children, ...props }: ButtonType) {
