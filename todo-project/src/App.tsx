@@ -6,8 +6,10 @@ import NewProject from "./components/NewProject";
 interface ProjectData {
   id?: number;
   name?: string;
+  title?: string;
+  description?: string;
+  dueDate?: string;
 }
-
 function App() {
   const [projectsState, setProjectsState] = useState<{
     selectedProjectId: null | undefined;
@@ -28,12 +30,14 @@ function App() {
 
   function handleAddProject(projectData: ProjectData) {
     setProjectsState((prevState) => {
+      const projectId = Math.random();
       const newProject = {
         ...projectData,
-        id: Math.random(),
+        id: projectId,
       };
       return {
         ...prevState,
+        selectedProjectId: undefined,
         project: [...prevState.project, newProject],
       };
     });
@@ -52,7 +56,10 @@ function App() {
   return (
     <>
       <main className="h-screen my-8 flex gap-8">
-        <ProjectsSidebar onStartAddProject={handleStartAddProject} />
+        <ProjectsSidebar
+          onStartAddProject={handleStartAddProject}
+          projects={projectsState.project}
+        />
         {content}
       </main>
     </>
