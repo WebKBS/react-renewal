@@ -2,22 +2,26 @@ import { useState } from "react";
 import NoProjectSelected from "./components/NoProjectSelected";
 import ProjectsSidebar from "./components/ProjectsSidebar";
 import NewProject from "./components/NewProject";
+import { ProjectDataType } from "./Types";
+import SelectedProject from "./components/SelectedProject";
 
-interface ProjectData {
-  id?: number;
-  name?: string;
-  title?: string;
-  description?: string;
-  dueDate?: string;
-}
 function App() {
   const [projectsState, setProjectsState] = useState<{
-    selectedProjectId: null | undefined;
-    project: ProjectData[];
+    selectedProjectId: null | undefined | number | object;
+    projects: ProjectDataType[];
   }>({
     selectedProjectId: undefined,
-    project: [],
+    projects: [],
   });
+
+  function handleSelectProject(id: number) {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: id,
+      };
+    });
+  }
 
   function handleStartAddProject() {
     setProjectsState((prevState) => {
@@ -37,7 +41,7 @@ function App() {
     });
   }
 
-  function handleAddProject(projectData: ProjectData) {
+  function handleAddProject(projectData: ProjectDataType) {
     setProjectsState((prevState) => {
       const projectId = Math.random();
       const newProject = {
@@ -47,12 +51,16 @@ function App() {
       return {
         ...prevState,
         selectedProjectId: undefined,
-        project: [...prevState.project, newProject],
+        projects: [...prevState.projects, newProject],
       };
     });
   }
 
-  let content;
+  const selectedProject = projectsState.projects.find(
+    (project) => project.id === projectsState.selectedProjectId
+  );
+
+  let content = <SelectedProject project={selectedProject} />;
 
   if (projectsState.selectedProjectId === null) {
     content = (
@@ -67,7 +75,8 @@ function App() {
       <main className="h-screen my-8 flex gap-8">
         <ProjectsSidebar
           onStartAddProject={handleStartAddProject}
-          projects={projectsState.project}
+          projects={projectsState.projects}
+          onSelectProject={handleSelectProject}
         />
         {content}
       </main>
