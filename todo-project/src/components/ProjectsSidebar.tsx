@@ -12,7 +12,7 @@ interface SideBarType {
   onStartAddProject: () => void;
   projects: ProjectData[];
   onSelectProject: (id: number) => void; // id 매개변수 추가
-  selectedProjectId?: number | undefined; // number | undefined로 수정
+  selectedProjectId: null | undefined | number;
 }
 
 export default function ProjectsSidebar({

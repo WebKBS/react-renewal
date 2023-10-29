@@ -1,24 +1,27 @@
-import { ProjectDataType } from "../Types";
+import Tasks from "./Tasks";
 
 export default function SelectedProject({
   project,
   onDelete,
+  onAddTask,
+  onDeleteTask,
+  tasks,
 }: {
-  project: ProjectDataType | undefined;
+  project: {
+    dueDate: string;
+    title: string;
+    description: string;
+  };
   onDelete: () => void;
+  onAddTask: (text: string) => void;
+  onDeleteTask: (id: string | number) => void;
+  tasks: [];
 }) {
-  if (!project) {
-    // project가 undefined일 경우의 처리
-    return <div>프로젝트가 선택되지 않았습니다.</div>;
-  }
-
-  const formattedDate = project.dueDate
-    ? new Date(project.dueDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      })
-    : "No due date";
+  const formattedDate = new Date(project.dueDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   return (
     <div className="w-[35rem] mt-16">
@@ -39,7 +42,7 @@ export default function SelectedProject({
           {project.description}
         </p>
       </header>
-      TASKs
+      <Tasks onAdd={onAddTask} onDelete={onDeleteTask} tasks={tasks} />
     </div>
   );
 }
