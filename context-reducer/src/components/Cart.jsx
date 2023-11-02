@@ -12,8 +12,7 @@ export default function Cart() {
 
   return (
     <CartContext.Consumer>
-      {(cartCtx) => {
-        console.log(cartCtx);
+      {() => {
         return (
           <div id="cart">
             {items.length === 0 && <p>No items in cart!</p>}
