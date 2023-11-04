@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Places from "./components/Places";
 import { AVAILABLE_PLACES } from "./data";
 import Modal from "./components/Modal";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import logoImg from "./assets/logo.png";
+import { sortPlacesByDistance } from "./loc";
 
 interface Place {
   id: string;
@@ -14,15 +15,36 @@ interface Place {
     alt: string;
   };
 }
+
 interface ModalRef {
   open: () => void;
   close: () => void;
+}
+
+interface SortedPlacesType {
+  lat: number;
+  lon: number;
 }
 
 function App() {
   const modal = useRef<ModalRef | null>(null); // Use ModalRef type here.
   const selectedPlace = useRef<string | null>(null);
   const [pickedPlaces, setPickedPlaces] = useState<Place[]>([]);
+  const [availabelPlaces, setAvailabelPlaces] = useState<SortedPlacesType[]>(
+    []
+  );
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortedPlaces = sortPlacesByDistance(
+        AVAILABLE_PLACES,
+        position.coords.latitude,
+        position.coords.longitude
+      );
+
+      setAvailabelPlaces(sortedPlaces);
+    });
+  }, []);
 
   function handleStartRemovePlace(id: string) {
     modal.current?.open(); // Now 'open' is recognized.
@@ -44,7 +66,19 @@ function App() {
       }
       return prevPickedPlaces;
     });
+
+    const storedIds =
+      JSON.parse(localStorage.getItem("selectedPlaces") as string) || [];
+
+    if (storedIds.indexOf(id) === -1) {
+      // 만약 id가 존재하지 않는다면 추가, 존재하면 추가하지않음
+      localStorage.setItem(
+        "selectedPlaces",
+        JSON.stringify([id, ...storedIds])
+      );
+    }
   }
+
   function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
@@ -78,7 +112,7 @@ function App() {
         <Places
           title="Available Places"
           fallbackText={"Select the places you would like to visit below."}
-          places={AVAILABLE_PLACES}
+          places={availabelPlaces}
           onSelectPlace={handleSelectPlace}
         />
       </main>
