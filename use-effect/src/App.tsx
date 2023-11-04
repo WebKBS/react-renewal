@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import Places from "./components/Places";
 import { AVAILABLE_PLACES } from "./data";
-import Modal, { ModalRef } from "./components/Modal"; // Import the ModalRef type.
+import Modal from "./components/Modal";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import logoImg from "./assets/logo.png";
 
@@ -13,6 +13,10 @@ interface Place {
     src: string;
     alt: string;
   };
+}
+interface ModalRef {
+  open: () => void;
+  close: () => void;
 }
 
 function App() {

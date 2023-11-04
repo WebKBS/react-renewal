@@ -33,5 +33,3 @@ const Modal = forwardRef<ModalRef, { children: React.ReactNode }>(
 );
 
 export default Modal;
-
-export type { ModalRef };
