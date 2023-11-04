@@ -21,17 +21,12 @@ function App() {
   const [pickedPlaces, setPickedPlaces] = useState<Place[]>([]);
 
   function handleStartRemovePlace(id: string) {
-    if (modal.current) {
-      modal.current.open(); // Now 'open' is recognized.
-      selectedPlace.current = id;
-    }
+    modal.current?.open(); // Now 'open' is recognized.
+    selectedPlace.current = id;
   }
 
   function handleStopRemovePlace() {
-    if (modal.current) {
-      modal.current.close(); // Now 'close' is recognized.
-      selectedPlace.current = null;
-    }
+    modal.current?.close(); // Now 'close' is recognized.
   }
 
   function handleSelectPlace(id: string) {
@@ -46,15 +41,11 @@ function App() {
       return prevPickedPlaces;
     });
   }
-
   function handleRemovePlace() {
-    if (selectedPlace.current) {
-      setPickedPlaces((prevPickedPlaces) =>
-        prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
-      );
-      modal.current?.close(); // Now 'close' is recognized.
-      selectedPlace.current = null;
-    }
+    setPickedPlaces((prevPickedPlaces) =>
+      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
+    );
+    modal.current?.close();
   }
 
   return (
