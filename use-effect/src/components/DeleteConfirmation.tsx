@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface DeleteConfirmationProps {
   onConfirm: () => void;
@@ -9,6 +9,18 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({
   onConfirm,
   onCancel,
 }) => {
+  useEffect(() => {
+    console.log("timer!");
+
+    const timer = setTimeout(() => {
+      onConfirm();
+    }, 3000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [onConfirm]);
+
   return (
     <div id="delete-confirmation">
       <h2>Are you sure?</h2>

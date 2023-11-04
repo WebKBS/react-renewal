@@ -34,8 +34,8 @@ const storedPlaces = storedIds.map((id: string) =>
 );
 
 function App() {
-  const modal = useRef<ModalRef | null>(null); // Use ModalRef type here.
   const selectedPlace = useRef<string | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [pickedPlaces, setPickedPlaces] = useState<Place[]>(storedPlaces);
   const [availabelPlaces, setAvailabelPlaces] = useState<SortedPlacesType[]>(
     []
@@ -54,12 +54,12 @@ function App() {
   }, []);
 
   function handleStartRemovePlace(id: string) {
-    modal.current?.open(); // Now 'open' is recognized.
+    setModalIsOpen(true);
     selectedPlace.current = id;
   }
 
   function handleStopRemovePlace() {
-    modal.current?.close(); // Now 'close' is recognized.
+    setModalIsOpen(false);
   }
 
   function handleSelectPlace(id: string) {
@@ -90,7 +90,7 @@ function App() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
-    modal.current?.close();
+    setModalIsOpen(false);
 
     const storedIds =
       JSON.parse(localStorage.getItem("selectedPlaces") as string) || [];
@@ -105,12 +105,14 @@ function App() {
 
   return (
     <>
-      <Modal ref={modal}>
-        <DeleteConfirmation
-          onCancel={handleStopRemovePlace}
-          onConfirm={handleRemovePlace}
-        />
-      </Modal>
+      {modalIsOpen && (
+        <Modal open={modalIsOpen}>
+          <DeleteConfirmation
+            onCancel={handleStopRemovePlace}
+            onConfirm={handleRemovePlace}
+          />
+        </Modal>
+      )}
 
       <header>
         <img src={logoImg} alt="Stylized globe" />
