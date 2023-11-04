@@ -26,23 +26,20 @@ interface SortedPlacesType {
   lon: number;
 }
 
+// 앱이 시작할때마다 불러올 이유는 없어서 App 함수 밖으로 뺀다.
+const storedIds =
+  JSON.parse(localStorage.getItem("selectedPlaces") as string) || [];
+const storedPlaces = storedIds.map((id: string) =>
+  AVAILABLE_PLACES.find((place) => place.id === id)
+);
+
 function App() {
   const modal = useRef<ModalRef | null>(null); // Use ModalRef type here.
   const selectedPlace = useRef<string | null>(null);
-  const [pickedPlaces, setPickedPlaces] = useState<Place[]>([]);
+  const [pickedPlaces, setPickedPlaces] = useState<Place[]>(storedPlaces);
   const [availabelPlaces, setAvailabelPlaces] = useState<SortedPlacesType[]>(
     []
   );
-
-  useEffect(() => {
-    const storedIds =
-      JSON.parse(localStorage.getItem("selectedPlaces") as string) || [];
-    const storedPlaces = storedIds.map((id: string) =>
-      AVAILABLE_PLACES.find((place) => place.id === id)
-    );
-
-    setPickedPlaces(storedPlaces);
-  }, []);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
