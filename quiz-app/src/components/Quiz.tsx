@@ -2,12 +2,6 @@ import { useState } from "react";
 import QUESTIONS from "../questions";
 import quizeCompleteImg from "../assets/quiz-complete.png";
 
-// interface QuestionType {
-//   id: string;
-//   text: string;
-//   answers: string[];
-// }
-
 function Quiz() {
   const [userAnswers, setUserAnswers] = useState<string[][]>([]);
 
