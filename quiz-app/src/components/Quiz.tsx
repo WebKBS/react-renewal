@@ -1,6 +1,7 @@
 import { useState } from "react";
 import QUESTIONS from "../questions";
 import quizeCompleteImg from "../assets/quiz-complete.png";
+import QuestionTimer from "./QuestionTimer";
 
 function Quiz() {
   const [userAnswers, setUserAnswers] = useState<string[][]>([]);
@@ -31,18 +32,26 @@ function Quiz() {
 
   return (
     <div id="quiz">
-      <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
-      <ul id="answers">
-        {shuffedAnswers.map((answer) => {
-          return (
-            <li key={answer} className="answer">
-              <button onClick={() => handleSelectAnswer(answer)}>
-                {answer}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <div id="question">
+        <QuestionTimer
+          timeout={10000}
+          onTimeout={() => {
+            handleSelectAnswer(null);
+          }}
+        />
+        <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
+        <ul id="answers">
+          {shuffedAnswers.map((answer) => {
+            return (
+              <li key={answer} className="answer">
+                <button onClick={() => handleSelectAnswer(answer)}>
+                  {answer}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
