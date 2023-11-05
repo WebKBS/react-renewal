@@ -3,19 +3,23 @@ import { useEffect, useState } from "react";
 function QuestionTimer({
   timeout,
   onTimeout,
+  mode,
 }: {
   timeout: number;
-  onTimeout: () => void;
+  onTimeout: (() => void) | null;
+  mode: string;
 }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
 
   useEffect(() => {
     console.log("SETTING TIMEOUT");
-    const timer = setTimeout(onTimeout, timeout);
+    if (onTimeout !== null) {
+      const timer = setTimeout(onTimeout, timeout);
 
-    return () => {
-      clearTimeout(timer);
-    };
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, [onTimeout, timeout]);
 
   useEffect(() => {
@@ -28,7 +32,14 @@ function QuestionTimer({
     };
   }, []);
 
-  return <progress id="question-time" max={timeout} value={remainingTime} />;
+  return (
+    <progress
+      id="question-time"
+      max={timeout}
+      value={remainingTime}
+      className={mode}
+    />
+  );
 }
 
 export default QuestionTimer;
