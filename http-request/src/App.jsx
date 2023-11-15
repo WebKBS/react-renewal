@@ -59,7 +59,7 @@ function App() {
 
     try {
       // 반드시 구조분해를 통해서 새로운 데이터를 전달해야한다.
-      await updateUserPlaces([selectedPlace, ...userPlaces]);
+      await updateUserPlaces([...userPlaces, selectedPlace]);
     } catch (error) {
       console.log(error);
       setUserPlaces(userPlaces);
