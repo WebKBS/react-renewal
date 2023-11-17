@@ -1,6 +1,16 @@
 export default function Signup() {
   function handleSubmit(event) {
     event.preventDefault();
+
+    // FormData name으로 input 필드의 모든 데이터를 가져온다.
+    const fd = new FormData(event.target);
+
+    const data = Object.fromEntries(fd.entries());
+
+    // 여기는 checkbox를 선택된 배열로 가져오는 방법.
+    const acquisitionChannel = fd.getAll('acquisition');
+    data.acquisition = acquisitionChannel;
+    console.log(data);
   }
 
   return (
