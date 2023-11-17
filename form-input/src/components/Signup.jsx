@@ -1,4 +1,7 @@
+import { useState } from 'react';
+
 export default function Signup() {
+  const [passwordsAreNotEqual, setPasswordsAreNotEqual] = useState(false);
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -10,6 +13,11 @@ export default function Signup() {
     // 여기는 checkbox를 선택된 배열로 가져오는 방법.
     const acquisitionChannel = fd.getAll('acquisition');
     data.acquisition = acquisitionChannel;
+
+    if (data.password !== data['confirm-password']) {
+      setPasswordsAreNotEqual(true);
+      return;
+    }
     console.log(data);
   }
 
@@ -36,6 +44,9 @@ export default function Signup() {
             type="password"
             name="confirm-password"
           />
+          <div className="control-error">
+            {passwordsAreNotEqual && <p>패스워드 확인해주세요.</p>}
+          </div>
         </div>
       </div>
 
