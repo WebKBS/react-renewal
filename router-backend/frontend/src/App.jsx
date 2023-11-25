@@ -49,7 +49,7 @@ const router = createBrowserRouter([
                 throw new Error('Something went wrong!');
               } else {
                 const resData = await response.json();
-                return resData;
+                return resData.events;
               }
             },
           },
