@@ -20,11 +20,11 @@ function EventsPage() {
 export default EventsPage;
 
 export async function loader() {
-  const response = await fetch('http://localhost:8080/events');
+  const response = await fetch('http://localhost:8080/evnts');
 
   if (!response.ok) {
-    return { isError: true, message: 'Something went wrong!' };
-    // throw new Error('Something went wrong!');
+    // return { isError: true, message: 'Something went wrong!' };
+    throw new Error('Something went wrong!');
   } else {
     const resData = await response.json();
     return resData.events;
