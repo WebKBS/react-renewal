@@ -4,6 +4,12 @@ import EventsList from '../components/EventsList';
 function EventsPage() {
   const events = useLoaderData();
 
+  console.log(events);
+
+  if (events.isError) {
+    return <p>{events.message}</p>;
+  }
+
   return (
     <>
       <EventsList events={events} />
@@ -17,7 +23,8 @@ export async function loader() {
   const response = await fetch('http://localhost:8080/events');
 
   if (!response.ok) {
-    throw new Error('Something went wrong!');
+    return { isError: true, message: 'Something went wrong!' };
+    // throw new Error('Something went wrong!');
   } else {
     const resData = await response.json();
     return resData.events;
