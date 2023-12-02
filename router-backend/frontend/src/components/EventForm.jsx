@@ -4,7 +4,7 @@ import classes from './EventForm.module.css';
 
 function EventForm({ method, event }) {
   function cancelHandler() {
-    navigate('..');
+    // navigate('..');
   }
 
   return (
